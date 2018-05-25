@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Group  from "../../components/Group/Group";
 import ButtonWithBackground from "../../components/UI/ButtonWithBackground/ButtonWithBackground";
 
-import { loadData, submitExpectations, updateExpectation } from "../../store/actions/fixture";
+import { loadData, submitExpectations } from "../../store/actions/fixture";
 
 class DashboardScreen extends Component {
 
@@ -29,10 +29,6 @@ class DashboardScreen extends Component {
 		this.props.onLoadData();
 	};
 
-	handleExpectationChange = (group, match, expectation) => {
-		this.props.onUpdateExpectation(group, match, expectation);
-	};
-
 	submitExpectationsHandler = () => {
 		alert("Submitting expectations");
 		this.props.onSubmitExpectations();
@@ -53,9 +49,6 @@ class DashboardScreen extends Component {
 						key={group}
 						group={group}
 						groupName={this.props.fixture[group].name}
-						// matches={this.props.fixture[group].matches}
-						// expectations={this.props.expectations[group]}
-						// handleExpectationChange={this.handleExpectationChange}
 					/>
 				);
 			});
@@ -90,7 +83,6 @@ const mapDispatchToProps = dispatch => {
 	return {
 		onLoadData: () => {dispatch(loadData())},
 		onSubmitExpectations: () => {dispatch(submitExpectations())},
-		onUpdateExpectation: (group, match, expectation) => {dispatch(updateExpectation(group, match, expectation))}
 	}
 };
 

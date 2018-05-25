@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet } from "react-native";
 
 import NumericInput, { calcSize } from 'react-native-numeric-input';
 import { updateExpectation } from "../../store/actions/fixture";
@@ -10,6 +10,7 @@ class Match extends Component {
 	render() {
 
 		const {
+			fixture,
 			expectations,
 			group,
 			match,
@@ -18,6 +19,9 @@ class Match extends Component {
 			onUpdateExpectation,
 		} = this.props;
 
+		const editable = !fixture[group].matches[match].finished &&
+											new Date() < new Date(fixture[group].matches[match].date);
+
 		return (
 			<View style={styles.match}>
 				<View style={styles.team}>
@@ -25,7 +29,33 @@ class Match extends Component {
 					<Text>{home_team.fifaCode}</Text>
 				</View>
 				<View style={styles.inputContainer}>
+
+					{/*<TextInput*/}
+					{/*style={styles.input}*/}
+					{/*keyboardType='numeric'*/}
+					{/*value={expectations[group].matches[match].home_expected_result.toString() || ""}*/}
+					{/*onChange={(value) => onUpdateExpectation(*/}
+					{/*group,*/}
+					{/*match,*/}
+					{/*{ home_expected_result: value }*/}
+					{/*)}*/}
+					{/*editable={false}*/}
+					{/*/>*/}
+
+					{/*<TextInput*/}
+					{/*style={styles.input}*/}
+					{/*keyboardType='numeric'*/}
+					{/*value={expectations[group].matches[match].away_expected_result.toString() || ""}*/}
+					{/*onChange={(value) => onUpdateExpectation(*/}
+					{/*group,*/}
+					{/*match,*/}
+					{/*{ away_expected_result: value }*/}
+					{/*)}*/}
+					{/*editable={false}*/}
+					{/*/>*/}
+
 					<NumericInput
+						editable={editable}
 						value={expectations[group].matches[match].home_expected_result}
 						onChange={(value) => onUpdateExpectation(
 							group,
@@ -34,6 +64,7 @@ class Match extends Component {
 						)}
 						containerStyle={{margin: 5}}
 						valueType='integer'
+						initValue={-1}
 						minValue={0}
 						totalWidth={calcSize(150)}
 						totalHeight={calcSize(100)}
@@ -45,6 +76,7 @@ class Match extends Component {
 						leftButtonBackgroundColor='#eee'
 					/>
 					<NumericInput
+						editable={editable}
 						value={expectations[group].matches[match].away_expected_result}
 						onChange={(value) => onUpdateExpectation(
 							group,
@@ -53,6 +85,7 @@ class Match extends Component {
 						)}
 						containerStyle={{margin: 5}}
 						valueType='integer'
+						initValue={-1}
 						minValue={0}
 						totalWidth={calcSize(150)}
 						totalHeight={calcSize(100)}
@@ -69,7 +102,7 @@ class Match extends Component {
 					<Text>{away_team.emojiString}</Text>
 				</View>
 			</View>
-		)
+		);
 	}
 }
 
@@ -94,12 +127,16 @@ const styles = StyleSheet.create({
 	},
 	input: {
 		margin: 5,
+		// width: 40,
+		// borderColor: "#eee",
+		// borderWidth: 1,
 	}
 });
 
 
 const mapStateProps = state => {
 	return {
+		fixture: state.fixture.fixture,
 		expectations: state.fixture.expectations,
 	}
 };

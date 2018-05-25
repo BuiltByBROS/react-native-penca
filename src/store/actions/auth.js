@@ -33,7 +33,6 @@ export const tryAuth = (authData, authMode) => {
 			})
 			.then(res => res.json())
 			.then(parsedRes => {
-				console.log("AUTH TOKEN!!!", parsedRes);
 				dispatch(loadingDataCompleted());
 				if (!parsedRes.idToken) {
 					alert("Authentication failed, please try again!");
