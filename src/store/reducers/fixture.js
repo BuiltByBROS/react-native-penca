@@ -26,7 +26,6 @@ const reducer = (state = initialState, action) => {
 						...state.expectations[action.group],
 						matches: state.expectations[action.group].matches
 						.map((value, index) =>  {
-							console.log("FIXTURE REDUCER!!!");
 							const started =  new Date() > new Date(state.fixture[action.group].matches[action.match].date);
 							if (index === action.match && !started) {
 								if (action.expectation.home_expected_result >= 0)
