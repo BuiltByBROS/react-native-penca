@@ -65,7 +65,7 @@ class Match extends Component {
 						containerStyle={{margin: 5}}
 						valueType='integer'
 						initValue={-1}
-						minValue={0}
+						minValue={-1}
 						totalWidth={calcSize(150)}
 						totalHeight={calcSize(100)}
 						iconSize={calcSize(25)}
@@ -86,7 +86,7 @@ class Match extends Component {
 						containerStyle={{margin: 5}}
 						valueType='integer'
 						initValue={-1}
-						minValue={0}
+						minValue={-1}
 						totalWidth={calcSize(150)}
 						totalHeight={calcSize(100)}
 						iconSize={calcSize(25)}
