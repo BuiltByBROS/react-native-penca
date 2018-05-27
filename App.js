@@ -28,32 +28,6 @@ Navigation.startSingleScreenApp({
 	},
 });
 
-// const openDashboard = () => {
-// 	Icon.getImageSource(Platform.OS === "android" ? "md-menu" : "ios-menu", 30)
-// 		.then((icon) => {
-// 			Navigation.startSingleScreenApp({
-// 				screen: {
-// 					screen: "react-native-penca.DashboardScreen",
-// 					title: "Dashboard",
-// 					navigatorButtons: {
-// 						leftButtons: [
-// 							{
-// 								icon: icon,
-// 								title: "Menu",
-// 								id: "sideDrawerToggle"
-// 							}
-// 						]
-// 					}
-// 				},
-// 				drawer: {
-// 					left: {
-// 						screen: "react-native-penca.SideDrawer"
-// 					}
-// 				}
-// 			});
-// 		});
-// };
-
 export const openDashboard = () => {
 	Promise.all([
 			Icon.getImageSource(Platform.OS === "android" ? "md-menu" : "ios-menu", 30),
