@@ -33,35 +33,60 @@ export const tryAuth = (authData, authMode) => {
 			})
 			.then(res => res.json())
 			.then(parsedRes => {
+				console.log("USER TOKEN INFO!!!", parsedRes);
 				dispatch(loadingDataCompleted());
 				if (!parsedRes.idToken) {
 					alert("Authentication failed, please try again!");
 				} else {
-					dispatch(authStoreToken(parsedRes.idToken, parsedRes.expiresIn, parsedRes.refreshToken, parsedRes.localId));
+					dispatch(authStoreToken(
+						parsedRes.idToken,
+						parsedRes.expiresIn,
+						parsedRes.refreshToken,
+						parsedRes.localId,
+						parsedRes.email
+					));
 					openDashboard();
 				}
 			});
 	};
 };
 
-export const authStoreToken = (token, expiresIn, refreshToken, userId) => {
+export const authStoreToken = (
+	token,
+	expiresIn,
+	refreshToken,
+	userId,
+	userEmail
+) => {
 	return dispatch => {
 		const now = new Date();
 		const expiryDate = now.getTime() + expiresIn * 1000;
-		dispatch(authSetToken(token, expiryDate, userId));
+		dispatch(authSetToken(
+			token,
+			expiryDate,
+			userId,
+			userEmail
+		));
 		AsyncStorage.setItem("ap:auth:token", token);
 		AsyncStorage.setItem("ap:auth:expiryDate", expiryDate.toString());
 		AsyncStorage.setItem("ap:auth:refreshToken", refreshToken);
 		AsyncStorage.setItem("ap:auth:userId", userId);
+		AsyncStorage.setItem("ap:auth:userEmail", userEmail);
 	}
 };
 
-export const authSetToken = (token, expiryDate, userId) => {
+export const authSetToken = (
+	token,
+	expiryDate,
+	userId,
+	userEmail,
+) => {
 	return {
 		type: AUTH_SET_TOKEN,
 		token: token,
 		expiryDate: expiryDate,
 		userId: userId,
+		userEmail: userEmail,
 	}
 };
 
@@ -73,6 +98,7 @@ export const authGetToken = () => {
 			if (!token || new Date(expiryDate) <= new Date()) {
 				let fetchedToken;
 				let parsedExpiryDate;
+				let parsedUserId;
 				AsyncStorage.getItem("ap:auth:token")
 					.catch(err => reject(err))
 					.then(tokenFromStorage => {
@@ -93,7 +119,16 @@ export const authGetToken = () => {
 						}
 					})
 					.then((userId) => {
-						dispatch(authSetToken(fetchedToken, parsedExpiryDate, userId));
+						parsedUserId = userId;
+						return AsyncStorage.getItem("ap:auth:userEmail")
+					})
+					.then((userEmail) => {
+						dispatch(authSetToken(
+							fetchedToken,
+							parsedExpiryDate,
+							parsedUserId,
+							userEmail
+						));
 						resolve(fetchedToken);
 					})
 					.catch(err => reject(err))
@@ -102,6 +137,7 @@ export const authGetToken = () => {
 			}
 		});
 		return promise.catch(err => {
+			let fetchedToken;
 			return AsyncStorage.getItem("ap:auth:refreshToken")
 				.then(refreshToken => {
 					return fetch("https://securetoken.googleapis.com/v1/token?key=" + API_KEY, {
@@ -115,11 +151,21 @@ export const authGetToken = () => {
 				.then(res => res.json())
 				.then(parsedRes => {
 					if (parsedRes.id_token) {
-						dispatch(authStoreToken(parsedRes.id_token, parsedRes.expires_in, parsedRes.refresh_token, parsedRes.user_id));
-						return parsedRes.id_token;
+						fetchedToken = parsedRes;
+						return AsyncStorage.getItem("ap:auth:userEmail")
 					} else {
 						dispatch(authClearStorage());
 					}
+				})
+				.then(userEmail => {
+					dispatch(authStoreToken(
+						fetchedToken.id_token,
+						fetchedToken.expires_in,
+						fetchedToken.refresh_token,
+						fetchedToken.user_id,
+						userEmail,
+					));
+					return fetchedToken.id_token;
 				})
 		})
 			.then(token => {
@@ -145,6 +191,7 @@ export const authAutoSignIn = () => {
 export const authClearStorage = () => {
 	return dispatch => {
 		AsyncStorage.removeItem("ap:auth:userId");
+		AsyncStorage.removeItem("ap:auth:userEmail");
 		AsyncStorage.removeItem("ap:auth:token");
 		AsyncStorage.removeItem("ap:auth:expiryDate");
 		return AsyncStorage.removeItem("ap:auth:refreshToken");

@@ -4,6 +4,7 @@ const initialState = {
 	token: null,
 	expiryDate: null,
 	userId: null,
+	userEmail: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -14,6 +15,7 @@ const reducer = (state = initialState, action) => {
 				token: action.token,
 				expiryDate: action.expiryDate,
 				userId: action.userId,
+				userEmail: action.userEmail,
 			};
 		case AUTH_REMOVE_TOKEN:
 			return {
@@ -21,6 +23,7 @@ const reducer = (state = initialState, action) => {
 				token: null,
 				expiryDate: null,
 				userId: null,
+				userEmail: null,
 			};
 		default:
 			return state;
