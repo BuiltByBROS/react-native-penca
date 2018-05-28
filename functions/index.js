@@ -36,8 +36,8 @@ exports.calculateRangking = functions.https.onRequest((request, response) => {
 						// set RANKING table on DB.
 						newRanking ?
 							ranking.set(newRanking)
-								.then(res => {
-									response.send("RANKING UPDATED!!!");
+								.then(() => {
+									return response.send("Ranking updated!");
 								})
 								.catch(e => {
 									reject(e);
