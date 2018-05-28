@@ -112,7 +112,7 @@ export const authGetToken = () => {
 					.then(expiryDate => {
 						parsedExpiryDate = new Date(parseInt(expiryDate));
 						const now = new Date();
-						if (parsedExpiryDate < now) {
+						if (parsedExpiryDate > now) {
 							return AsyncStorage.getItem("ap:auth:userId")
 						} else {
 							reject();

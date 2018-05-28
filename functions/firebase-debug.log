@@ -1,0 +1,44 @@
+[debug] [2018-05-27T23:44:52.467Z] ----------------------------------------------------------------------
+[debug] [2018-05-27T23:44:52.469Z] Command:       /Users/schubert/.nvm/versions/node/v8.9.0/bin/node /Users/schubert/.nvm/versions/node/v8.9.0/bin/firebase serve
+[debug] [2018-05-27T23:44:52.469Z] CLI Version:   3.18.5
+[debug] [2018-05-27T23:44:52.469Z] Platform:      darwin
+[debug] [2018-05-27T23:44:52.469Z] Node Version:  v8.9.0
+[debug] [2018-05-27T23:44:52.469Z] Time:          Sun May 27 2018 20:44:52 GMT-0300 (-03)
+[debug] [2018-05-27T23:44:52.470Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-27T23:44:52.486Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-27T23:44:52.487Z] > authorizing via signed-in user
+[debug] [2018-05-27T23:44:52.491Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-05-27T23:44:52.491Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/Wh3iRj-Hq6M2DCwBBvw4PGZxrklYJXwjRAk8kv0vV3-iih1MxXJ41eXXMhxzOLk9',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Sun May 27 2018 20:44:52 GMT-0300 (-03)
+[debug] [2018-05-27T23:44:52.881Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-27T23:44:52.912Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/react-native-penca  
+  
+ Sun May 27 2018 20:44:52 GMT-0300 (-03)
+[debug] [2018-05-27T23:44:57.186Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-27T23:44:57.187Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/react-native-penca/tokens  
+  
+ Sun May 27 2018 20:44:57 GMT-0300 (-03)
+[debug] [2018-05-27T23:45:01.239Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-27T23:45:01.240Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/react-native-penca  
+  
+ Sun May 27 2018 20:45:01 GMT-0300 (-03)
+[debug] [2018-05-27T23:45:02.511Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/schubert/workspace/bros/react-native-penca'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-05-27T23:45:03.683Z] Fetching environment
+[debug] [2018-05-27T23:45:03.685Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/28800231220:getServerAppConfig  
+  
+ Sun May 27 2018 20:45:03 GMT-0300 (-03)
+[debug] [2018-05-27T23:45:04.393Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-27T23:45:04.393Z] Starting @google-cloud/functions-emulator
+[debug] [2018-05-27T23:45:06.465Z] Parsing function triggers
+[info] ✔  functions: helloWorld: http://localhost:5000/react-native-penca/us-central1/helloWorld
+[info] ✔  functions: calculateRangking: http://localhost:5000/react-native-penca/us-central1/calculateRangking

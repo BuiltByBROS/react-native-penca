@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, ScrollView, ActivityIndicator } from "react-native";
+import { View, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import { connect } from "react-redux";
 
-import Group  from "../../components/Group/Group";
+import Match from "../../components/Match/Match";
+import HeadingText from "../../components/UI/HeadingText/HeadingText";
+import MainText from "../../components/UI/MainText/MainText";
 import ButtonWithBackground from "../../components/UI/ButtonWithBackground/ButtonWithBackground";
 
 import { loadData, submitExpectations } from "../../store/actions/fixture";
@@ -43,14 +45,34 @@ class DashboardScreen extends Component {
 				&& this.props.expectations) {
 
 			content = [];
-			Object.keys(this.props.fixture).forEach((group) => {
+			Object.keys(this.props.fixture).forEach((groupIndex) => {
+
+				let matches = [];
+				this.props.fixture[groupIndex].matches.forEach((match, matchIndex) => {
+
+					matches.push(
+						<Match
+							key={matchIndex}
+							group={groupIndex}
+							match={matchIndex}
+							{...match}
+						/>
+					);
+				});
+
 				content.push(
-					<Group
-						key={group}
-						group={group}
-						groupName={this.props.fixture[group].name}
-					/>
-				);
+					<View
+						key={groupIndex}
+						style={styles.groupContainer}>
+						<MainText>
+							<HeadingText>
+								{this.props.fixture[groupIndex].name}
+							</HeadingText>
+						</MainText>
+						{matches}
+					</View>
+				)
+
 			});
 
 			submitResultButton = (
@@ -92,6 +114,13 @@ const styles = StyleSheet.create({
 		width: "100%",
 		alignItems: "center",
 		justifyContent: "center",
+	},
+	groupContainer: {
+		flex: 1,
+		height: "auto",
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
 	},
 });
 
