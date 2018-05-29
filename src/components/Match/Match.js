@@ -1,142 +1,123 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { View, Text, TextInput, StyleSheet } from "react-native";
-
-import NumericInput, { calcSize } from 'react-native-numeric-input';
 import { updateExpectation } from "../../store/actions/fixture";
 
 class Match extends Component {
 
+	handleExpectationUpdate = (value, team) => {
+		if (parseInt(value) && value >= 0) {
+			this.props.onUpdateExpectation(
+				this.props.group,
+				this.props.match,
+				{ [team]: parseInt(value) }
+			)
+		}
+	};
+
 	render() {
 
 		const {
-			fixture,
-			expectations,
 			group,
 			match,
+			expectations,
 			home_team,
 			away_team,
-			onUpdateExpectation,
+			home_result,
+			away_result,
+			finished,
+			date,
 		} = this.props;
 
-		const editable = !fixture[group].matches[match].finished &&
-											new Date() < new Date(fixture[group].matches[match].date);
+		const editable = !finished && new Date() < new Date(date);
 
 		return (
-			<View style={styles.match}>
-				<View style={styles.team}>
-					<Text>{home_team.emojiString}</Text>
-					<Text>{home_team.fifaCode}</Text>
+			<View style={styles.container}>
+				<View style={styles.expectation}>
+					<View style={styles.team}>
+						<Text style={styles.emojiString}>{home_team.emojiString}</Text>
+						<Text>{home_team.fifaCode}</Text>
+					</View>
+					<View style={styles.inputContainer}>
+						<TextInput
+							keyboardType='numeric'
+							editable={editable}
+							style={editable ? styles.input : [styles.input, styles.inputDisabled]}
+							value={
+								expectations[group].matches[match].home_expected_result >= 0 ?
+									expectations[group].matches[match].home_expected_result.toString() : ""
+							}
+							onChangeText={value => this.handleExpectationUpdate(value, "home_expected_result")}
+						/>
+						<TextInput
+							keyboardType='numeric'
+							editable={editable}
+							style={editable ? styles.input : [styles.input, styles.inputDisabled]}
+							value={
+								expectations[group].matches[match].away_expected_result >= 0 ?
+									expectations[group].matches[match].away_expected_result.toString() : ""
+							}
+							onChangeText={value => this.handleExpectationUpdate(value, "away_expected_result")}
+						/>
+					</View>
+					<View style={styles.team}>
+						<Text>{away_team.fifaCode}</Text>
+						<Text style={styles.emojiString}>{away_team.emojiString}</Text>
+					</View>
 				</View>
-				<View style={styles.inputContainer}>
-
-					{/*<TextInput*/}
-					{/*style={styles.input}*/}
-					{/*keyboardType='numeric'*/}
-					{/*value={expectations[group].matches[match].home_expected_result.toString() || ""}*/}
-					{/*onChange={(value) => onUpdateExpectation(*/}
-					{/*group,*/}
-					{/*match,*/}
-					{/*{ home_expected_result: value }*/}
-					{/*)}*/}
-					{/*editable={false}*/}
-					{/*/>*/}
-
-					{/*<TextInput*/}
-					{/*style={styles.input}*/}
-					{/*keyboardType='numeric'*/}
-					{/*value={expectations[group].matches[match].away_expected_result.toString() || ""}*/}
-					{/*onChange={(value) => onUpdateExpectation(*/}
-					{/*group,*/}
-					{/*match,*/}
-					{/*{ away_expected_result: value }*/}
-					{/*)}*/}
-					{/*editable={false}*/}
-					{/*/>*/}
-
-					<NumericInput
-						editable={editable}
-						value={expectations[group].matches[match].home_expected_result}
-						onChange={(value) => onUpdateExpectation(
-							group,
-							match,
-							{ home_expected_result: value }
-						)}
-						containerStyle={{margin: 5}}
-						valueType='integer'
-						initValue={-1}
-						minValue={-1}
-						totalWidth={calcSize(150)}
-						totalHeight={calcSize(100)}
-						iconSize={calcSize(25)}
-						rounded
-						textColor='black'
-						iconStyle={{ color: 'white' }}
-						rightButtonBackgroundColor='#eee'
-						leftButtonBackgroundColor='#eee'
-					/>
-					<NumericInput
-						editable={editable}
-						value={expectations[group].matches[match].away_expected_result}
-						onChange={(value) => onUpdateExpectation(
-							group,
-							match,
-							{ away_expected_result: value }
-						)}
-						containerStyle={{margin: 5}}
-						valueType='integer'
-						initValue={-1}
-						minValue={-1}
-						totalWidth={calcSize(150)}
-						totalHeight={calcSize(100)}
-						iconSize={calcSize(25)}
-						rounded
-						textColor='black'
-						iconStyle={{ color: 'white' }}
-						rightButtonBackgroundColor='#eee'
-						leftButtonBackgroundColor='#eee'
-					/>
-				</View>
-				<View style={styles.team}>
-					<Text>{away_team.fifaCode}</Text>
-					<Text>{away_team.emojiString}</Text>
-				</View>
+				{ finished ?
+						<Text style={{textAlign: "center"}}>Finished{"\n"}{home_result}:{away_result}</Text> :
+						<Text style={{textAlign: "center"}}>{new Date(date).toLocaleDateString()}{"\n"}{new Date(date).toLocaleTimeString()}</Text>
+				}
 			</View>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
-	match: {
+	container: {
 		flex: 1,
-		flexDirection: "row",
+		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
+		width: "100%",
+		margin: 5,
+	},
+	expectation: {
+		flex: 1,
+		width: "100%",
+		flexDirection: "row",
 	},
 	team: {
+		flex: 1,
 		flexDirection: "row",
 		justifyContent: "space-around",
 		alignItems: "center",
-		flex: 1,
+	},
+	emojiString: {
+		fontSize: 40,
 	},
 	inputContainer: {
-		width: 150,
 		flexDirection: "row",
 		justifyContent: "center",
 		margin: 10,
 	},
 	input: {
 		margin: 5,
-		// width: 40,
-		// borderColor: "#eee",
-		// borderWidth: 1,
-	}
+		height: 40,
+		width: 40,
+		borderColor: "#eee",
+		borderWidth: 1,
+		alignItems: "center",
+		textAlign: "center",
+	},
+	inputDisabled: {
+		backgroundColor: "#eee",
+	},
 });
-
 
 const mapStateProps = state => {
 	return {
-		fixture: state.fixture.fixture,
 		expectations: state.fixture.expectations,
 	}
 };

@@ -110,14 +110,14 @@ const mapDispatchToProps = dispatch => {
 
 const styles = StyleSheet.create({
 	container: {
-		minHeight: "100%",
 		width: "100%",
+		minHeight: "100%",
 		alignItems: "center",
 		justifyContent: "center",
 	},
 	groupContainer: {
 		flex: 1,
-		height: "auto",
+		width: "100%",
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
