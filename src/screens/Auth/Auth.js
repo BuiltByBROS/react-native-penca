@@ -118,7 +118,6 @@ class AuthScreen extends Component {
 	};
 
 	render() {
-		let headingText = null;
 		let confirmPasswordControl = null;
 		let submitButton = (
 			<ButtonWithBackground
@@ -135,14 +134,6 @@ class AuthScreen extends Component {
 
 		if (this.props.isLoading) {
 			submitButton = <ActivityIndicator />
-		}
-
-		if (this.state.viewMode === 'portrait') {
-			headingText = (
-				<MainText>
-					<HeadingText>Please log in</HeadingText>
-				</MainText>
-			)
 		}
 
 		if (this.state.authMode === "signup") {
@@ -164,7 +155,6 @@ class AuthScreen extends Component {
 		return (
 			<ImageBackground source={backgroundImage} style={styles.backgroundImage}>
 				<KeyboardAvoidingView style={styles.container} behavior="padding">
-					{headingText}
 					<ButtonWithBackground
 						color="#29aaf4"
 						onPress={this.switchAuthModeHandler}

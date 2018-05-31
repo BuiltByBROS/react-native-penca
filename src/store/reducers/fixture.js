@@ -28,12 +28,15 @@ const reducer = (state = initialState, action) => {
 						.map((value, index) =>  {
 							const started =  new Date() > new Date(state.fixture[action.group].matches[action.match].date);
 							if (index === action.match && !started) {
-								if (action.expectation.home_expected_result >= 0)
+								if (action.expectation.hasOwnProperty("home_expected_result"))
 									value.home_expected_result = action.expectation.home_expected_result;
-								if (action.expectation.away_expected_result >= 0 )
+								if (action.expectation.hasOwnProperty("away_expected_result"))
 									value.away_expected_result = action.expectation.away_expected_result;
 
-								value.isSet = true;
+								value.home_expected_result !== null && value.away_expected_result !== null ?
+									value.isSet = true:
+									value.isSet = false;
+
 							} else if (started) {
 								value.started = true;
 							}

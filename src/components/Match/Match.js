@@ -6,13 +6,16 @@ import { updateExpectation } from "../../store/actions/fixture";
 class Match extends Component {
 
 	handleExpectationUpdate = (value, team) => {
-		if (parseInt(value) && value >= 0) {
-			this.props.onUpdateExpectation(
-				this.props.group,
-				this.props.match,
-				{ [team]: parseInt(value) }
-			)
-		}
+
+		let newValue = value && parseInt(value) >= 0 ?
+			parseInt(value) :
+			null;
+
+		this.props.onUpdateExpectation(
+			this.props.group,
+			this.props.match,
+			{ [team]: newValue }
+		)
 	};
 
 	render() {
@@ -44,8 +47,8 @@ class Match extends Component {
 							editable={editable}
 							style={editable ? styles.input : [styles.input, styles.inputDisabled]}
 							value={
-								expectations[group].matches[match].home_expected_result >= 0 ?
-									expectations[group].matches[match].home_expected_result.toString() : ""
+								expectations[group].matches[match].home_expected_result ?
+								expectations[group].matches[match].home_expected_result.toString() : null
 							}
 							onChangeText={value => this.handleExpectationUpdate(value, "home_expected_result")}
 						/>
@@ -54,8 +57,8 @@ class Match extends Component {
 							editable={editable}
 							style={editable ? styles.input : [styles.input, styles.inputDisabled]}
 							value={
-								expectations[group].matches[match].away_expected_result >= 0 ?
-									expectations[group].matches[match].away_expected_result.toString() : ""
+								expectations[group].matches[match].away_expected_result ?
+								expectations[group].matches[match].away_expected_result.toString() : null
 							}
 							onChangeText={value => this.handleExpectationUpdate(value, "away_expected_result")}
 						/>
