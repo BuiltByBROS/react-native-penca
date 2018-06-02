@@ -42,8 +42,10 @@ const calculateRanking = (users, fixture) => {
 					score += 2
 				}
 
-				if (match.home_expected_result >= match.away_expected_result
-					&& fixture.groups[groupIndex].matches[matchIndex].home_result >= fixture.groups[groupIndex].matches[matchIndex].away_result
+				if (match.home_expected_result === match.away_expected_result
+					&& fixture.groups[groupIndex].matches[matchIndex].home_result === fixture.groups[groupIndex].matches[matchIndex].away_result
+					|| match.home_expected_result > match.away_expected_result
+					&& fixture.groups[groupIndex].matches[matchIndex].home_result > fixture.groups[groupIndex].matches[matchIndex].away_result
 					|| match.home_expected_result < match.away_expected_result
 					&& fixture.groups[groupIndex].matches[matchIndex].home_result < fixture.groups[groupIndex].matches[matchIndex].away_result
 				) {
