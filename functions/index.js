@@ -13,9 +13,9 @@ admin.initializeApp({
 });
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
- cors(request, response, () => {
-	 response.send("Hello from Firebase!");
- });
+	cors(request, response, () => {
+		response.send("Hello from Firebase!");
+	});
 });
 
 exports.calculateRangking = functions.https.onRequest((request, response) => {

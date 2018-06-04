@@ -5,7 +5,7 @@ import { AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN } from "./actionTypes";
 import { loadingData, loadingDataCompleted } from "./ui";
 import openDashboard from "../../../App";
 
-const API_KEY = "AIzaSyDb3QBqFJ9laRl_mAD-O4WarTWPC6AGEf4";
+const API_KEY = "AIzaSyB3Edn5hxi5Y63I_fhjdm5NYegdWP4RLzs";
 
 export const tryAuth = (authData, authMode) => {
 	return dispatch => {

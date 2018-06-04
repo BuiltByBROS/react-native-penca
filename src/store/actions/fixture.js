@@ -33,7 +33,7 @@ export const loadData = () => {
 		dispatch(authGetToken())
 			.then(token => {
 				authToken = token;
-				return fetch("https://react-native-penca.firebaseio.com/users/" + userId + ".json?auth=" + authToken)
+				return fetch("https://react-native-penca-f43e3.firebaseio.com/users/" + userId + ".json?auth=" + authToken)
 			})
 			.then(res => {
 				if (res.ok) {
@@ -366,7 +366,7 @@ export const loadData = () => {
 					},
 				}
 				dispatch(setExpectations(expectations));
-				return fetch("https://react-native-penca.firebaseio.com/fixture.json?auth=" + authToken)
+				return fetch("https://react-native-penca-f43e3.firebaseio.com/fixture.json?auth=" + authToken)
 			})
 			.then(res => {
 				if (res.ok) {
@@ -403,7 +403,7 @@ export const submitExpectations = () => {
 			.then(token => {
 				authToken = token;
 				userId = getState().auth.userId;
-				return fetch("https://react-native-penca.firebaseio.com/users/" + userId + ".json?auth=" + authToken, {
+				return fetch("https://react-native-penca-f43e3.firebaseio.com/users/" + userId + ".json?auth=" + authToken, {
 					method: "PUT",
 					body: JSON.stringify({
 						expectations: getState().fixture.expectations,
