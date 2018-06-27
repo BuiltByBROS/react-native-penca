@@ -1,6 +1,6 @@
 # React Native Penca
 
-App to make our expectations for the Fifa World Cup Russia 2018.
+App to make our predictions for the Fifa World Cup Russia 2018.
 
 # Test it!
 
